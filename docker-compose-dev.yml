@@ -8,11 +8,20 @@ services:
                 NODE_ENV: development
         environment: 
             - NODE_ENV=development
+            - MONGO_USER=admin
+            - MONGO_PASSWORD=admin
         volumes: 
-            - ./:/app:ro
-            - node-modules:/app/node_modules
+            - ./:/app
+            - node_modules:/app/node_modules
         command: npm run dev
         # env_file: 
         #    - ./.env
-volumes: 
-    node-modules:
+# Install node_modules inside Docker container and synchronize them with host
+# https://stackoverflow.com/a/67010277/5514320
+volumes:
+    node_modules:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: ./node_modules
