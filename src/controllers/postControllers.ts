@@ -1,8 +1,8 @@
 import { Post } from '../models/postModel';
-import { Response, Request, NextFunction } from 'express';
+import { Response, Request } from 'express';
 
-// even though req and next is not used removing it causes error: res.status is not a function TypeError
-export const getAllPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+// even though req is not used; removing it causes error: res.status is not a function TypeError
+export const getAllPosts = async (req: Request, res: Response): Promise<void> => {
     try {
         const posts = await Post.find();
 
