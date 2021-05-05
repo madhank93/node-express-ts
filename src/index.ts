@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { Config } from './config/config';
 import postRouter from './routes/postRoutes';
+import userRouter from './routes/userRoute';
 
 const app = express();
 
@@ -32,6 +33,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/posts', postRouter);
+
+app.use('/api/v1/user', userRouter);
 
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);
