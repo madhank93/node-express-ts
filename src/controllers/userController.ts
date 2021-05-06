@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { User, UserDocument } from '../models/userModel';
+import { User, IUserDocument } from '../models/userModel';
 import bcrypt from 'bcrypt';
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
@@ -26,7 +26,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
     const { username, password } = req.body;
 
     try {
-        const user: UserDocument = await User.findOne({ username: username });
+        const user: IUserDocument = await User.findOne({ username: username });
 
         if (!user) {
             res.status(404).json({
