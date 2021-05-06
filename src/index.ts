@@ -3,6 +3,24 @@ import mongoose from 'mongoose';
 import { Config } from './config/config';
 import postRouter from './routes/postRoutes';
 import userRouter from './routes/userRoute';
+import session from 'express-session';
+import redis from 'redis';
+import connectRedis from 'connect-redis';
+
+const RedisStore = connectRedis(session);
+
+const redisClient = redis.createClient({
+    host: Config.REDIS_URL,
+    port: Config.REDIS_PORT,
+});
+
+redisClient.on('error', function (err) {
+    console.log('could not establish a connection with redis. ' + err);
+});
+
+redisClient.on('connect', function () {
+    console.log('connected to redis successfully');
+});
 
 const app = express();
 
@@ -15,7 +33,7 @@ const connectWithRetry = () => {
             useUnifiedTopology: true,
             useFindAndModify: false,
         })
-        .then(() => console.log('Ran successfully'))
+        .then(() => console.log('Successfully connected to mongo db'))
         .catch((err) => {
             console.log(err);
             setTimeout(connectWithRetry, 5000);
@@ -23,6 +41,23 @@ const connectWithRetry = () => {
 };
 
 connectWithRetry();
+
+app.enable('trust proxy');
+//app.use(cors({}));
+
+app.use(
+    session({
+        store: new RedisStore({ client: redisClient }),
+        secret: Config.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: false,
+            maxAge: 30000,
+        },
+    }),
+);
 
 app.use(express.json());
 

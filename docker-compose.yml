@@ -18,6 +18,11 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=admin
         volumes: 
             - mongo-data:/data/db
+    
+    redis-db:
+        image: redis
+        depends_on: 
+            - mongo-db
 
 volumes: 
     mongo-data:
