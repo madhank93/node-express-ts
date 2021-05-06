@@ -35,7 +35,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
             });
         }
 
-        const isAuthenticated = bcrypt.compare(password, user.password);
+        const isAuthenticated = await bcrypt.compare(password, user.password);
 
         if (isAuthenticated) {
             res.status(200).json({
@@ -44,6 +44,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
         } else {
             res.status(400).json({
                 status: 'Fail',
+                message: 'Incorrect username or password',
             });
         }
     } catch (error) {
