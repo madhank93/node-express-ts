@@ -63,7 +63,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
     res.send('<h2>Hi, there. This is Madhan K</h2>');
 });
 
