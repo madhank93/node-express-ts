@@ -1,10 +1,5 @@
 # node-express-ts
 
-### Build docker image
-
-```docker
-docker image build -t node-app .
-```
 ### Run the container using docker-compose for dev env
 
 ```docker
@@ -33,7 +28,7 @@ printenv # to print all the environment variable
 ### Production deploy using docker swarm for orchestration
 
 ```docker
-docker stack deploy -c docker-compose.yml -c docker-compose-prod.yml myapp #
+docker stack deploy -c docker-compose.yml -c docker-compose-prod.yml myapp
 ```
 
 ### Docker swarm commands
@@ -43,3 +38,7 @@ docker node ls # lists all the available nodes
 docker node stack # lists all the available stacks
 docker stack myapp # to list out the services in the stack
 ```
+
+This app was created following the free code camp tutorial - https://www.youtube.com/watch?v=9zUHg7xjIqQ
+
+Note: I have no idea why sessions are not being stored in redis-db. I'll have to come back to it later.
